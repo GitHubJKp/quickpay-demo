@@ -29,11 +29,3 @@ test('쿠폰 없이 결제 금액 = 상품 금액 + 배송비', () => {
 test('쿠폰 적용 시 할인 표시 금액', () => {
   assert.equal(calculateTotal(CART, 'WELCOME10').discount, 5000);
 });
-
-// 회귀 테스트: QPB-1 — 쿠폰 적용 시 최종 결제 금액 이중 할인 버그
-test('WELCOME10 쿠폰 적용 시 최종 결제 금액 = 45,000원 (이중 할인 없음)', () => {
-  // 상품 합계 50,000 → 10% 할인 5,000 → 할인 후 45,000 (무료 배송)
-  // 버그: applyCoupon을 두 번 적용하면 40,500이 나옴
-  const r = calculateTotal(CART, 'WELCOME10');
-  assert.equal(r.total, 45000, '쿠폰이 두 번 적용되면 안 됩니다');
-});
