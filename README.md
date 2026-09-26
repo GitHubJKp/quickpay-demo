@@ -24,3 +24,7 @@
 - osci.atlassian.net 프로젝트 **QPAY** — [DEMO] QuickPay 출시 파이프라인
 
 코딩 에이전트 작업 규칙은 [`CLAUDE.md`](./CLAUDE.md)를 참고하세요.
+
+## 리허설 로그
+
+- 2026-09-26 R4(승인 → GitHub PR 자동 머지) 테스트 (QPB-2)
