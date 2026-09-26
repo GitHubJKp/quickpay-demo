@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QuickPay 주문 결제 — 달빛커피 (데모)</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="logo">Q</span> QuickPay <small>한빛페이</small></div>
+    <div class="merchant">가맹점 · 달빛커피 온라인몰</div>
+  </header>
+
+  <main class="card">
+    <h1>주문 결제</h1>
+    <p class="order">주문번호 ORD-20260930-0042</p>
+
+    <section>
+      <h2>주문 상품</h2>
+      <ul id="items" class="items"></ul>
+    </section>
+
+    <section class="summary">
+      <div class="row"><span>상품 금액</span><span id="subtotal"></span></div>
+      <div class="row discount"><span>쿠폰 할인 <small id="coupon-label"></small></span><span id="discount"></span></div>
+      <div class="row"><span>배송비</span><span id="shipping"></span></div>
+      <div class="row total"><span>최종 결제 금액</span><span id="total"></span></div>
+    </section>
+
+    <button id="pay" class="pay"></button>
+    <div id="result" class="result" role="status"></div>
+  </main>
+
+  <footer>
+    <span>이 페이지는 Atlassian AI 데모용 가상 결제 화면입니다. 실제 결제가 일어나지 않습니다.</span>
+    <span id="build" class="build"></span>
+  </footer>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

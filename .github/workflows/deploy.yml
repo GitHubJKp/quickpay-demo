@@ -1,0 +1,64 @@
+name: QuickPay CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: quickpay-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: 테스트
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 결제 화면 테스트 (node)
+        run: npm test
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 백엔드 테스트 (pytest)
+        # test_payment_retry.py 는 QPAY-1 작업 중인 스텁(PR #1)이라 제외
+        run: |
+          pip install -q pytest
+          pytest -q test_settlement_report.py
+
+  deploy:
+    name: production 배포
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: 빌드 정보 기록 (화면 하단에 표시)
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          SHORT_SHA="${GITHUB_SHA::7}"
+          DEPLOYED_AT="$(TZ=Asia/Seoul date '+%Y-%m-%d %H:%M')"
+          FIRST_LINE="$(printf '%s' "${COMMIT_MSG:-manual}" | head -n1 | cut -c1-80)"
+          python3 -c 'import json,sys; print(json.dumps({"commit":sys.argv[1],"deployedAt":sys.argv[2],"message":sys.argv[3]}, ensure_ascii=False))' \
+            "$SHORT_SHA" "$DEPLOYED_AT" "$FIRST_LINE" > web/build.json
+          cat web/build.json
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+      - name: GitHub Pages 배포
+        id: deployment
+        uses: actions/deploy-pages@v4

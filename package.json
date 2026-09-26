@@ -1,0 +1,9 @@
+{
+  "name": "quickpay-demo",
+  "private": true,
+  "type": "module",
+  "description": "QuickPay(한빛페이) 가상 데모 저장소 — Atlassian AI 데모용",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  }
+}

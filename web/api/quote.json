@@ -1,0 +1,10 @@
+{
+  "orderId": "ORD-20260930-0042",
+  "currency": "KRW",
+  "subtotal": 50000,
+  "couponCode": "WELCOME10",
+  "discount": 5000,
+  "shipping": 0,
+  "expectedTotal": 45000,
+  "note": "결제 서버(PG)가 계산한 주문 금액 (데모용 정적 응답)"
+}
