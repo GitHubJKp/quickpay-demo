@@ -1,6 +1,7 @@
 // 결제 금액 계산 테스트 — 실행: node --test tests/
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { subtotal, discountAmount, shippingFee, calculateTotal, COUPONS } from '../web/checkout.js';
 
 const CART = [
@@ -28,4 +29,11 @@ test('쿠폰 없이 결제 금액 = 상품 금액 + 배송비', () => {
 
 test('쿠폰 적용 시 할인 표시 금액', () => {
   assert.equal(calculateTotal(CART, 'WELCOME10').discount, 5000);
+});
+
+test('QPB-2: README 리허설 로그에 R4 자동 머지 검증 항목이 존재한다', () => {
+  const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8');
+  assert.ok(readme.includes('R4'), 'README에 R4 항목이 없습니다');
+  assert.ok(readme.includes('QPB-2'), 'README에 QPB-2 항목이 없습니다');
+  assert.ok(readme.includes('리허설 로그'), 'README에 리허설 로그 섹션이 없습니다');
 });
