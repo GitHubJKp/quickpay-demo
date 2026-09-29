@@ -42,7 +42,7 @@ export function calculateTotal(items, couponCode) {
   const shipping = shippingFee(discounted);
 
   // 결제 금액 = 할인 적용 금액 + 배송비
-  const total = applyCoupon(discounted, coupon) + shipping;
+  const total = discounted + shipping;
 
   return { subtotal: sub, discount, shipping, total };
 }
