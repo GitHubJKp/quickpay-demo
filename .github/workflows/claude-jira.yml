@@ -90,9 +90,19 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           KEY: ${{ github.event.client_payload.key }}
         run: |
-          PR=$(gh pr list --state open --search "$KEY in:title" --json number,url,headRefName --jq '.[0]')
+          # 검색(--search)은 인덱스 반영이 늦어 방금 만든 PR을 놓칠 수 있다.
+          # 열린 PR 목록을 직접 읽고, 브랜치 claude/<KEY>/ 와 제목 '<KEY> '가 모두 맞는 PR만 인정한다. 최대 6번(약 1분) 다시 확인한다.
+          # KEY는 앞 단계에서 ^QPB-[0-9]+$ 로 검증했다.
+          PR=""
+          for i in 1 2 3 4 5 6; do
+            PR=$(gh pr list --state open --limit 100 --json number,url,title,headRefName,author \
+              --jq "[.[] | select((.headRefName | startswith(\"claude/$KEY/\")) and (.title | startswith(\"$KEY \")))] | .[0]")
+            if [ -n "$PR" ] && [ "$PR" != "null" ]; then break; fi
+            echo "PR 확인 $i/6: 아직 없음, 10초 뒤 다시 확인"
+            sleep 10
+          done
           if [ -z "$PR" ] || [ "$PR" = "null" ]; then
-            echo "PR을 찾지 못했습니다: $KEY" | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "PR을 찾지 못했습니다: $KEY (브랜치 claude/$KEY/…, 제목 '$KEY …')" | tee -a "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
-          echo "PR: $(echo "$PR" | jq -r .url) ($(echo "$PR" | jq -r .headRefName))" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "PR: $(echo "$PR" | jq -r .url) ($(echo "$PR" | jq -r .headRefName), 작성자 $(echo "$PR" | jq -r .author.login))" | tee -a "$GITHUB_STEP_SUMMARY"
