@@ -8,7 +8,6 @@ export const BENEFITS = { PAYBACK: '페이백', NONE: '일반 결제' };
 export class PaybackRoutingResolver {
   static resolve({ card, benefit }) {
     if (benefit !== 'PAYBACK') return 'DEFAULT';
-    if (card === 'A') return 'DEFAULT';
     return `${card}_PAYBACK`;
   }
 }
