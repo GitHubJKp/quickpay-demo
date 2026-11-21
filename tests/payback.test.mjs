@@ -28,3 +28,9 @@ test('C카드 페이백은 C 전용 경로로 승인된다', () => {
 test('지원하지 않는 카드사는 오류', () => {
   assert.throws(() => requestApproval({ card: 'Z', benefit: 'PAYBACK', amount: AMOUNT }));
 });
+
+test('QPB-11 회귀: A카드 페이백은 A_PAYBACK 경로로 승인된다', () => {
+  const r = requestApproval({ card: 'A', benefit: 'PAYBACK', amount: AMOUNT });
+  assert.equal(r.route, 'A_PAYBACK');
+  assert.equal(r.code, '00');
+});
