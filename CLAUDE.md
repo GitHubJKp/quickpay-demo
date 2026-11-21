@@ -1,12 +1,14 @@
 # 코딩 에이전트 작업 규칙 (QuickPay 데모 저장소)
 
-이 저장소는 Atlassian AI 데모용 **가상** 저장소입니다. Jira 작업 항목을 받아 작업하는 코딩 에이전트(Claude Agent for Jira 등)는 아래 규칙을 따릅니다.
+이 저장소는 Atlassian AI 데모용 **가상** 저장소입니다. Jira 작업 항목을 받아 작업하는 코딩 에이전트(Claude Code, Claude Agent for Jira 등)는 아래 규칙을 따릅니다.
 
 ## 구조
 - `web/` — 결제 화면(정적 페이지, GitHub Pages로 production 배포)
   - `web/checkout.js` — 결제 금액 계산 로직 (상품 금액, 쿠폰 할인, 배송비, 최종 결제 금액)
   - `web/app.js` — 화면 렌더링과 결제 승인 요청
   - `web/api/quote.json` — 결제 서버(PG)가 계산한 기대 금액 (데모용 정적 응답)
+  - `web/payback.js` — 쿠폰·페이백 서비스의 카드사별 할인 라우팅(PaybackRoutingResolver)과 카드사 승인 모의 응답
+  - `web/payback.html`, `web/payback-app.js` — 페이백 결제 확인 화면(카드사·혜택을 고르고 승인 요청)
 - `tests/*.test.mjs` — 결제 화면 테스트 (`npm test`)
 - `*.py`, `test_*.py` — 백엔드 모듈과 테스트 (`pytest -q`)
 - `.github/workflows/deploy.yml` — main 머지 시 테스트 후 production 배포 (수정하지 말 것)

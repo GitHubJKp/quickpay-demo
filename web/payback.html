@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QuickPay 페이백 결제 확인 — 한빛페이 (데모)</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="logo">Q</span> QuickPay <small>한빛페이</small></div>
+    <div class="merchant"><a href="./index.html">주문 결제</a> · 페이백 결제 확인</div>
+  </header>
+
+  <main class="card">
+    <h1>페이백 결제 확인</h1>
+    <p class="order">11월 페이백 행사 · 카드사별 승인 경로 점검 (가상)</p>
+
+    <section>
+      <h2>카드사</h2>
+      <div class="choices">
+        <label><input type="radio" name="card" value="A" checked /> A카드</label>
+        <label><input type="radio" name="card" value="B" /> B카드</label>
+        <label><input type="radio" name="card" value="C" /> C카드</label>
+      </div>
+    </section>
+
+    <section>
+      <h2>결제 혜택</h2>
+      <div class="choices">
+        <label><input type="radio" name="benefit" value="PAYBACK" checked /> 페이백</label>
+        <label><input type="radio" name="benefit" value="NONE" /> 일반 결제</label>
+      </div>
+    </section>
+
+    <section class="summary">
+      <div class="row total"><span>결제 금액</span><span id="amount"></span></div>
+    </section>
+
+    <button id="approve" class="pay">승인 요청</button>
+    <div id="answer" class="result" role="status"></div>
+  </main>
+
+  <footer>
+    <span>이 페이지는 Atlassian AI 데모용 가상 화면입니다. 실제 결제나 카드사 연동은 없습니다.</span>
+    <span id="build" class="build"></span>
+  </footer>
+  <script type="module" src="./payback-app.js"></script>
+</body>
+</html>

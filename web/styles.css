@@ -26,3 +26,7 @@ h2 { font-size:15px; color:var(--muted); margin:28px 0 10px; font-weight:600; }
 .result.ok { padding:14px 16px; background:#e3fcef; color:#006644; border:1px solid #abf5d1; }
 footer { max-width:520px; margin:0 auto 40px; display:flex; flex-direction:column; gap:6px; color:var(--muted); font-size:12px; text-align:center; }
 .build { font-family: ui-monospace, Menlo, monospace; }
+.choices { display:flex; gap:10px; flex-wrap:wrap; }
+.choices label { flex:1; min-width:110px; border:1px solid var(--line); border-radius:10px; padding:12px 14px; font-size:16px; cursor:pointer; }
+.choices input { margin-right:6px; }
+.merchant a { color:var(--brand); text-decoration:none; }
