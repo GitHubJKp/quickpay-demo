@@ -1,13 +1,17 @@
-// 쿠폰·페이백 서비스 v2.4.0 — 카드사별 할인 라우팅 프로필 (가상 데모 코드)
+// 쿠폰·페이백 서비스 v2.5.0 — 카드사별 할인 라우팅 프로필 (가상 데모 코드)
 // 페이백 결제는 카드사별 전용 승인 경로로 보내야 카드사가 승인합니다.
 // 화면(payback-app.js)과 테스트(tests/payback.test.mjs)가 같은 함수를 사용합니다.
 
 export const CARDS = ['A', 'B', 'C'];
 export const BENEFITS = { PAYBACK: '페이백', NONE: '일반 결제' };
 
+// v2.5.0: 재계약 대기 중인 카드사 프로필은 기본 경로로 처리
+const PROFILE_ON_HOLD = ['A'];
+
 export class PaybackRoutingResolver {
   static resolve({ card, benefit }) {
     if (benefit !== 'PAYBACK') return 'DEFAULT';
+    if (PROFILE_ON_HOLD.includes(card)) return 'DEFAULT';
     return `${card}_PAYBACK`;
   }
 }

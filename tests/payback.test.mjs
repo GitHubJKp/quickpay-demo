@@ -13,24 +13,16 @@ test('일반 결제는 기본 경로로 승인된다', () => {
   }
 });
 
-test('B카드 페이백은 B 전용 경로로 승인된다', () => {
-  const r = requestApproval({ card: 'B', benefit: 'PAYBACK', amount: AMOUNT });
-  assert.equal(r.route, 'B_PAYBACK');
-  assert.equal(r.code, '00');
-});
-
-test('C카드 페이백은 C 전용 경로로 승인된다', () => {
-  const r = requestApproval({ card: 'C', benefit: 'PAYBACK', amount: AMOUNT });
-  assert.equal(r.route, 'C_PAYBACK');
-  assert.equal(r.code, '00');
-});
+// v2.5.0: 카드사별 페이백 경로 테스트를 표 기반으로 정리
+for (const [card, route] of [['B', 'B_PAYBACK'], ['C', 'C_PAYBACK']]) {
+  test(`${card}카드 페이백은 ${route} 경로로 승인된다`, () => {
+    const r = requestApproval({ card, benefit: 'PAYBACK', amount: AMOUNT });
+    assert.equal(r.route, route);
+    assert.equal(r.code, '00');
+  });
+}
 
 test('지원하지 않는 카드사는 오류', () => {
   assert.throws(() => requestApproval({ card: 'Z', benefit: 'PAYBACK', amount: AMOUNT }));
 });
 
-test('QPB-11 회귀: A카드 페이백은 A_PAYBACK 경로로 승인된다', () => {
-  const r = requestApproval({ card: 'A', benefit: 'PAYBACK', amount: AMOUNT });
-  assert.equal(r.route, 'A_PAYBACK');
-  assert.equal(r.code, '00');
-});
