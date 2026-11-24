@@ -5,13 +5,9 @@
 export const CARDS = ['A', 'B', 'C'];
 export const BENEFITS = { PAYBACK: '페이백', NONE: '일반 결제' };
 
-// v2.5.0: 재계약 대기 중인 카드사 프로필은 기본 경로로 처리
-const PROFILE_ON_HOLD = ['A'];
-
 export class PaybackRoutingResolver {
   static resolve({ card, benefit }) {
     if (benefit !== 'PAYBACK') return 'DEFAULT';
-    if (PROFILE_ON_HOLD.includes(card)) return 'DEFAULT';
     return `${card}_PAYBACK`;
   }
 }
